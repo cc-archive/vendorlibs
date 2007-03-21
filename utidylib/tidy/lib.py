@@ -9,11 +9,14 @@ packagedir = os.path.dirname(__file__)
 # distribution
 try:
     import ctypes
+    import ctypes.util
 except ImportError:
     private_ctypes = os.path.join(packagedir, 'pvt_ctypes')
     sys.path.insert(0, private_ctypes)
     sys.path.insert(0, os.path.join(private_ctypes, 'ctypes.zip'))
     import ctypes
+    import ctypes.util
+
 from cStringIO import StringIO
 import weakref
 from tidy.error import *
