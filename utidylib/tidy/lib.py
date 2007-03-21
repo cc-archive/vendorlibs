@@ -26,6 +26,11 @@ from tidy.error import *
 thelib=None
 try:
     thelib = getattr(ctypes.cdll, ctypes.util.find_library('tidy'))
+except OSError, e:
+    # on linux we can't find it in places like /usr/local/lib... try that
+    if sys.platform == 'linux2':
+        thelib = getattr(ctypes.cdll, '/usr/local/lib/%s' %
+                         ctypes.util.find_library('tidy'))
 except TypeError:
     # if find_library is unsuccessful, it returns None, which getattr hates
     raise OSError("Couldn't find libtidy, please make sure it is installed.")
