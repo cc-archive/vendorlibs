@@ -1,0 +1,40 @@
+Index: setup.py
+===================================================================
+--- setup.py	(revision 10)
++++ setup.py	(working copy)
+@@ -1,5 +1,10 @@
+ from path import path
+-from distutils.core import setup
++
++try:
++    from setuptools import setup
++except ImportError:
++    from distutils.core import setup
++
+ from distutils.command.install import install
+ from distutils.command.install_data import install_data
+ from distutils.command.bdist_wininst import bdist_wininst
+Index: tidy/lib.py
+===================================================================
+--- tidy/lib.py	(revision 10)
++++ tidy/lib.py	(working copy)
+@@ -21,15 +21,10 @@
+ # search the path for libtidy using the known names; try the package 
+ # directory too
+ thelib=None
+-os.environ['PATH'] = "%s%s%s" % (packagedir, os.pathsep, os.environ['PATH'])
+-for libname in ('cygtidy-0-99-0', 'libtidy', 'libtidy.so',
+-                'libtidy-0.99.so.0', 'tidylib'):
+-    try:
+-        thelib = getattr(ctypes.cdll, libname)
+-        break
+-    except OSError:
+-        pass
+-if not thelib:
++try:
++    thelib = getattr(ctypes.cdll, ctypes.util.find_library('tidy'))
++except TypeError:
++    # if find_library is unsuccessful, it returns None, which getattr hates
+     raise OSError("Couldn't find libtidy, please make sure it is installed.")
+ 
+ class Loader:

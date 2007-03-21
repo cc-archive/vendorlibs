@@ -1,0 +1,14 @@
+INSTALL.txt
+LICENSE
+MANIFEST.in
+README.path
+README.txt
+gendoc.py
+path.py
+setup.py
+tidy/README.tidydll
+tidy/__init__.py
+tidy/error.py
+tidy/lib.py
+tidy/test_tidy.py
+tidy/pvt_ctypes/README.ctypes
